@@ -9,10 +9,15 @@
  * - To install node dependencies you should first initialize npm
  * - Print the entire response to the console to see how it is structured.
  */
-
-function printChuckNorrisJoke() {
+async function printChuckNorrisJoke() {
   // YOUR CODE GOES IN HERE
-
-}
-
+  try {
+    const fetch = require('node-fetch'),
+          response = await fetch('https://api.icndb.com/jokes/random'),
+          data = await response.json();
+    console.log(data.value.joke)
+  } catch (error) {
+    console.log(error)
+  }
+  }
 printChuckNorrisJoke();
