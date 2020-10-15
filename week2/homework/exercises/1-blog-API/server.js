@@ -1,16 +1,15 @@
-
 const express = require('express')
 const fs = require("fs");
 const app = express();
+const bodyParser = require('body-parser');
 
-app.use(express.json());
 
-
+app.use(bodyParser.urlencoded({ extended: false }));
 // YOUR CODE GOES IN HERE
 
 //homepage
 app.get('/', function (req, res) {
-  res.send('Hello My First Blog!')
+  res.send('Hello My First Blog!');
 })
 
 app.get('/blogs/:title', (req, res) => getBlog(req, res));
@@ -26,18 +25,20 @@ const getBlog = (req, res) => {
     res.send(response)
   }
   else {
-    res.send(`${title} does not exist!`)
+    res.send(`${title} does not exist!`);
+    res.status(500);
+
   }
-
 }
-
 
 //post a new new blog
 const postBlog = (req, res) => {
   const title = req.body.title;
+  console.log(title);
   const content = req.body.content;
   fs.writeFileSync(title, content);
   res.send(`${title} created.`);
+
 }
 
 //update
@@ -49,6 +50,8 @@ const updateBlog = (req, res) => {
   }
   else {
     res.send(`${title} does not exist!`)
+    res.status(500);
+
   }
 }
 
@@ -60,7 +63,9 @@ const deleteBlog = (req, res) => {
     res.send(`${title} is deleted.`)
   }
   else {
-    res.send(`${title} does not exist!`)
+    res.send(`${title} does not exist!`);
+    res.status(500);
+
   }
 }
 
